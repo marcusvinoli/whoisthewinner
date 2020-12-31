@@ -20,7 +20,8 @@ function sanitizeInputScreenshot(inputScreenshotPath) {
 //Remove Special Characteres
 function getStringWithoutSpecialChars(str) {
     //return str.replace(/[`~!@#$%^&*()|+\-=?;:'",<>\{\}\[\]\\\/]/gi, '');
-    return str.replace(/[^\w\s]/gi, '');
+    return str.replace(/[^\w\s\r]/gi, '');
+    return str.replace(/[^\w\r\n\t\ .]/gim, '');
 };
 
 //Create a multiple line strings array from single string
@@ -33,16 +34,16 @@ function isEmpty(str) {
 };
 
 function isBlank(str) {
-    return (!str || /^\s*$/.test(str));
+    return (!str || /^\s*$/.test(str) || str === "");
 };
 
 //Remove void lines
 function getArrayWithNoVoidLines(textArray) {
-    textArray.forEach(element => {
-        if (isBlank(element) || isEmpty(element)){
-            textArray.splice(textArray.indexOf(element), 1);
+    for (var i = 0; i < textArray.length; i++){
+        if(isBlank(textArray[i]) || isEmpty(textArray[i])){
+            textArray.splice(i, 1);
         }
-    });
+    }
     return textArray;
 }
 
@@ -54,7 +55,7 @@ function getArrayWithNoDeadText(textArray) {
     let firstWordOfRmvString = textToRemove.split(' ')[0];
     let lastWordOfRmvString = textToRemove.split(' ')[(textToRemove.split(' ').length-1)];
 
-    textArray.splice(0, 1);    
+    textArray.splice(0, 1);
     
     for (var i = 0; i < textArray.length; i++) {
         textArray[i] = textArray[i].trim();
@@ -66,10 +67,15 @@ function getArrayWithNoDeadText(textArray) {
         }
     }
     
-    for (var i = 0; i <= textArray.length-1; i++) {
+    for (var i = 0; i < textArray.length; i++) {
         textArray[i] = textArray[i].trim();
     }
 
+    for(var i = 0; i < textArray.length; i=i+2) {
+        if(!textArray[i]){
+            textArray.splice(i, 1);
+        }
+    }
     return textArray;
 }
 
@@ -77,7 +83,7 @@ function getArrayWithNoDeadText(textArray) {
 function sanitizeOutputText(text) {
     var stringText = text.toString();
     stringText = getStringWithoutSpecialChars(stringText);
-
+    
     var stringArray = getLinesArrayFromString(stringText);
     stringArray = getArrayWithNoVoidLines(stringArray);
     stringArray = getArrayWithNoDeadText(stringArray);
