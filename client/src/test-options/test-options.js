@@ -6,28 +6,19 @@ function buildOptionCreator(ResultsComputer) {
             this.isCorrect = isCorrect;
             this.voterList = [];
             this.isReady = false;
+            this.numberOfVoters = 0;
+            
         };
 
-        optionText;
-        inputScreenshotPath;
-        isCorrect;
-        voterList;
-        numberOfVoters;
-        isReady;
-
         async compute(){
-            await ResultsComputer(this.inputScreenshotPath)
+            let Results = new ResultsComputer();
+            await Results.getVoters(this.inputScreenshotPath)
             .then(list => {
-                this.numberOfVoters = 0;
-                this.isReady = false;
                 list.forEach(element => {
                     this.voterList.push(element);
                     this.numberOfVoters++;
                 });
             })
-            .then(function(){
-                //this.isReady = true;
-            });
         }
     }
 };
