@@ -27,7 +27,7 @@ var Opcao09_V = new Option('Espada de São Jorge', '././tests/imgs/img18-espadad
 var Opcao10_V = new Option('Babosa', '././tests/imgs/img19-babosa.jpg', true);
 var Opcao10_F = new Option('Jaborandi', '././tests/imgs/img20-jaborandi.jpg', false);
 
-var OptionsVector = [ 
+let OptionsVector = [ 
     Opcao01_V,
     Opcao01_F,
     Opcao02_V,
@@ -82,6 +82,19 @@ const promisesOptionsVector = [
     Opcao10_V.compute(),
 ];
 
+/*
+OptionsVector.forEach(OptionOnVector => {
+    OptionOnVector.compute()
+    .then(function() {
+        console.log(OptionOnVector.numberOfVoters + " voters for " + OptionOnVector.optionText + ".");
+        UserVotersList.addFromTestOption(OptionOnVector);
+    })
+    .then(function(){
+        VotesComputer.ComputeVotes(UserVotersList, OptionOnVector);
+    })
+});
+*/
+
 Promise.all(promisesOptionsVector).then(function() {
     console.log("Resolved all Options");
 }).then(function() {
@@ -94,29 +107,44 @@ Promise.all(promisesOptionsVector).then(function() {
         VotesComputer.ComputeVotes(UserVotersList, OptionOnVector);
     })
 }).then(function() {
-    printUserData('marcusvinoli');
-    printWinners();
+    console.log('# # # # # # # Usuários Vencedores # # # # # # # ');
+    console.log('Quantidade mínima de Acertos: 10');
+    console.log('PS: Não vale o meu user!');
+    printAccordingHits(10,10)
+    console.log('# # # # # # # Segundo Lugar # # # # # # # ');
+    console.log('Quantidade mínima de Acertos: 9');
+    printAccordingHits(9,10)
+    console.log('# # # # # # # Terceiro Lugar # # # # # # # ');
+    console.log('Quantidade mínima de Acertos: 8');
+    printAccordingHits(8,10)
+    console.log('# # # # # # # Troféu Mandioca # # # # # # # ');
+    console.log('Não conseguiu nem chutar...');
+    printAccordingHits(0,10)
+
+    console.log('Parabéns, moçada! E obrigado por Participare! ;-)');
 });
 
-function printUserData(username) {
+function printAllUserData() {
     UserVotersList.voters.forEach(voter => {
-        if(voter.username === username) {
-            user = voter;
-            console.log("= = = = = = = = = = = = = = = = =");
-            console.log("Username: " + user.username);
-            console.log("Name: " + user.name);
-            console.log("Qnt. of Correct Answers: " + user.numberOfCorrectAnswers);
-            console.log("Correct Answers: " + user.correctAnswers);
-            console.log("Qnt. of Wrong Answers: " + user.numberOfWrongAnswers);
-            console.log("Wrong Answers: " + user.wrongAnswers);
-        }
-    })
+        printUserData(voter);
+    });
 }
 
-function printAccordingHits(hits) {
+function printUserData(voter){
+    console.log("= = = = = = = = = = = = = = = = =");
+    console.log("Username: " + voter.username);
+    console.log("Name: " + voter.name);
+    console.log("Correct Answers: " + voter.correctAnswers);
+    console.log("Wrong Answers: " + voter.wrongAnswers);
+    console.log("Number of Votes: " + voter.numberOfAnswers);
+    console.log("Number of Correct Answers: " + voter.numberOfCorrectAnswers);
+    console.log("Number of Wrong Answers: " + voter.numberOfWrongAnswers);
+}
+
+function printAccordingHits(hits, minVotes) {
     UserVotersList.voters.forEach(voter => {
-        if ((voter.numberOfCorrectAnswers === hits) && (voter.numberOfAnwers === OptionsVector.length)) {
-            printUserData(voter.username);
+        if ((voter.numberOfCorrectAnswers === hits) && (voter.numberOfAnswers >= minVotes)) {
+            printUserData(voter);
         }
     })
 }

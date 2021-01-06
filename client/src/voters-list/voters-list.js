@@ -1,4 +1,5 @@
 const User = require('../user');
+var stringSimilarity = require('string-similarity'); 
 
 class VotersList {
     constructor() {
@@ -21,7 +22,8 @@ class VotersList {
     existsOnVotersList(voter) {
         var result = false;
         this.voters.forEach(voterOnList => {
-            if(voterOnList.username === voter.username) {
+            //if((voterOnList.username === voter.username) || ((stringSimilarity.compareTwoStrings(voterOnList.username, voter.username)) > 0.8 || (stringSimilarity.compareTwoStrings(voterOnList.name, voter.name) > 0.8))) {
+            if((voterOnList.username === voter.username) || (voterOnList.name === voter.name)) {
                 result = true;
             }
         })

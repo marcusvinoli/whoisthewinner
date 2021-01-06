@@ -10,6 +10,7 @@
     "canvas": "^2.6.1",
     "image-clipper": "^0.4.4",
     "image-size": "^0.9.3",
-    "node-tesseract-ocr": "^2.0.0"
+    "node-tesseract-ocr": "^2.0.0",
+    "string-similarity": "^4.0.3"
   }
 }
