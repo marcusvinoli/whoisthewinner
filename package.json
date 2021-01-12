@@ -8,8 +8,10 @@
   "license": "MIT",
   "dependencies": {
     "canvas": "^2.6.1",
+    "file-system": "^2.2.2",
     "image-clipper": "^0.4.4",
     "image-size": "^0.9.3",
+    "jimp": "^0.16.1",
     "node-tesseract-ocr": "^2.0.0",
     "string-similarity": "^4.0.3"
   }

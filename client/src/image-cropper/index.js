@@ -66,15 +66,14 @@ CropEngine = {
         var clipper = Clipper();
         clipper.injectNodeCanvas(Canvas);
         clipper.image(inputFile, function(){
-        console.log('Image loaded successfuly!');
-        this.resize(defaultWidth)
-        .quality(100)
-        .crop(parameters.cropStartPoint.x, parameters.cropStartPoint.y, parameters.cropSize.width, parameters.cropSize.height)
-        .toFile(outputFile, function(){ 
-            console.log("Cropped image saved!") 
+            console.log('Image loaded successfuly!');
+            this.resize(defaultWidth)
+            .quality(100)
+            .crop(parameters.cropStartPoint.x, parameters.cropStartPoint.y, parameters.cropSize.width, parameters.cropSize.height)
+            .toFile(outputFile, function(){ 
+                console.log("Cropped image saved!: " + outputFile);
+            });
         });
-    });
-    return;
     }
 }
 

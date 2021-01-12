@@ -16,9 +16,10 @@ function buildOptionCreator(ResultsComputer) {
             .then(list => {
                 list.forEach(element => {
                     this.voterList.push(element);
-                    //console.log(element);
                 });
                 this.numberOfVoters = list.length;
+            }).then(function(){
+                console.log('Computed done.');
             })
         }
     }

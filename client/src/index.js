@@ -2,6 +2,9 @@ const Option = require('./test-options');
 //const UsersVotersColletion = require('./voters-collection');
 const VotersList = require('./voters-list');
 const VotesComputerClass = require('./votes-computer');
+const FileSystem = require('file-system');
+
+const OutputPathFile = '././tests/out/voterList.txt'
 
 var UserVotersList = new VotersList();
 var VotesComputer = new VotesComputerClass();
@@ -22,14 +25,16 @@ var Opcao07_V = new Option('Dinheiro-em-Penca', '././tests/imgs/img13-dinheiroem
 var Opcao07_F = new Option('Erva-Cabeleira', '././tests/imgs/img14-ervacabeleira.jpg', false);
 var Opcao08_V = new Option('Samambaia Havaiana', '././tests/imgs/img15-samambaiahavaiana.jpg', true);
 var Opcao08_F = new Option('Samambaia Paulista', '././tests/imgs/img16-samambaiapaulista.jpg', false);
-var Opcao09_F = new Option('Espada de St. Bárbara', '././tests/imgs/img17-espadadestbarbara.png', false);
 var Opcao09_V = new Option('Espada de São Jorge', '././tests/imgs/img18-espadadesaojorge.jpg', true);
+var Opcao09_F = new Option('Espada de St. Bárbara', '././tests/imgs/img17-espadadestbarbara.png', false);
 var Opcao10_V = new Option('Babosa', '././tests/imgs/img19-babosa.jpg', true);
 var Opcao10_F = new Option('Jaborandi', '././tests/imgs/img20-jaborandi.jpg', false);
 
 let OptionsVector = [ 
     Opcao01_V,
     Opcao01_F,
+    Opcao09_V,
+    Opcao09_F,
     Opcao02_V,
     Opcao02_F,
     Opcao03_F,
@@ -44,8 +49,6 @@ let OptionsVector = [
     Opcao07_F,
     Opcao08_V,
     Opcao08_F,
-    Opcao09_F,
-    Opcao09_V,
     Opcao10_F,
     Opcao10_V,
 ];
@@ -60,6 +63,8 @@ function printResults(Opcao) {
 };
 
 const promisesOptionsVector = [ 
+    Opcao10_V.compute(),
+    Opcao10_F.compute(),
     Opcao01_V.compute(),
     Opcao01_F.compute(),
     Opcao02_V.compute(),
@@ -76,10 +81,8 @@ const promisesOptionsVector = [
     Opcao07_F.compute(),
     Opcao08_V.compute(),
     Opcao08_F.compute(),
-    Opcao09_F.compute(),
     Opcao09_V.compute(),
-    Opcao10_F.compute(),
-    Opcao10_V.compute(),
+    Opcao09_F.compute(),
 ];
 
 /*
@@ -101,23 +104,31 @@ Promise.all(promisesOptionsVector).then(function() {
     OptionsVector.forEach(OptionOnVector => {
         UserVotersList.addFromTestOption(OptionOnVector);
         console.log(OptionOnVector.numberOfVoters + " voters for " + OptionOnVector.optionText + ".");
-    })
+    }) 
 }).then(function() {
     OptionsVector.forEach(OptionOnVector => {
         VotesComputer.ComputeVotes(UserVotersList, OptionOnVector);
     })
 }).then(function() {
-    console.log('# # # # # # # Usuários Vencedores # # # # # # # ');
+    console.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #');
+    console.log('# # # # # # # # # # # # # # Usuários Vencedores # # # # # # # # # # # # # # ');
+    console.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #');
     console.log('Quantidade mínima de Acertos: 10');
     console.log('PS: Não vale o meu user!');
     printAccordingHits(10,10)
-    console.log('# # # # # # # Segundo Lugar # # # # # # # ');
+    console.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #');
+    console.log('# # # # # # # # # # # # # # Segundo Lugar # # # # # # # # # # # # # # ');
+    console.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #');
     console.log('Quantidade mínima de Acertos: 9');
     printAccordingHits(9,10)
-    console.log('# # # # # # # Terceiro Lugar # # # # # # # ');
+    console.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #');
+    console.log('# # # # # # # # # # # # # # Terceiro Lugar # # # # # # # # # # # # # # ');
+    console.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #');
     console.log('Quantidade mínima de Acertos: 8');
     printAccordingHits(8,10)
-    console.log('# # # # # # # Troféu Mandioca # # # # # # # ');
+    console.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #');
+    console.log('# # # # # # # # # # # # # # Troféu Mandioca # # # # # # # # # # # # # # ');
+    console.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #');
     console.log('Não conseguiu nem chutar...');
     printAccordingHits(0,10)
 

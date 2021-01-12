@@ -22,8 +22,9 @@ class VotersList {
     existsOnVotersList(voter) {
         var result = false;
         this.voters.forEach(voterOnList => {
-            //if((voterOnList.username === voter.username) || ((stringSimilarity.compareTwoStrings(voterOnList.username, voter.username)) > 0.8 || (stringSimilarity.compareTwoStrings(voterOnList.name, voter.name) > 0.8))) {
-            if((voterOnList.username === voter.username) || (voterOnList.name === voter.name)) {
+            if((stringSimilarity.compareTwoStrings(voterOnList.username, voter.username) > 0.80) || 
+                    ((stringSimilarity.compareTwoStrings(voterOnList.name, voter.name) > 0.80) && (voter.name !== ''))) {
+            //if((voterOnList.username === voter.username) || (voterOnList.name === voter.name)) {
                 result = true;
             }
         })

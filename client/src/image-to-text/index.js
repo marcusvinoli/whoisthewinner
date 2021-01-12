@@ -4,7 +4,7 @@ const buildImageToTextConverter = require('./image-to-text');
 
 TesseractEngine = {
     defaultConfiguration : {
-        lang: "eng+por",
+        lang: "por+eng",
         oem: 1,
         psm: 3,
     },
