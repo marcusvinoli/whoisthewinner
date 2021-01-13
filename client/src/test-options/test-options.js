@@ -18,8 +18,6 @@ function buildOptionCreator(ResultsComputer) {
                     this.voterList.push(element);
                 });
                 this.numberOfVoters = list.length;
-            }).then(function(){
-                console.log('Computed done.');
             })
         }
     }

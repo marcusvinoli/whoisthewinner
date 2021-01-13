@@ -2,9 +2,6 @@ const Option = require('./test-options');
 //const UsersVotersColletion = require('./voters-collection');
 const VotersList = require('./voters-list');
 const VotesComputerClass = require('./votes-computer');
-const FileSystem = require('file-system');
-
-const OutputPathFile = '././tests/out/voterList.txt'
 
 var UserVotersList = new VotersList();
 var VotesComputer = new VotesComputerClass();
@@ -85,19 +82,6 @@ const promisesOptionsVector = [
     Opcao09_F.compute(),
 ];
 
-/*
-OptionsVector.forEach(OptionOnVector => {
-    OptionOnVector.compute()
-    .then(function() {
-        console.log(OptionOnVector.numberOfVoters + " voters for " + OptionOnVector.optionText + ".");
-        UserVotersList.addFromTestOption(OptionOnVector);
-    })
-    .then(function(){
-        VotesComputer.ComputeVotes(UserVotersList, OptionOnVector);
-    })
-});
-*/
-
 Promise.all(promisesOptionsVector).then(function() {
     console.log("Resolved all Options");
 }).then(function() {
@@ -110,30 +94,38 @@ Promise.all(promisesOptionsVector).then(function() {
         VotesComputer.ComputeVotes(UserVotersList, OptionOnVector);
     })
 }).then(function() {
-    console.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #');
-    console.log('# # # # # # # # # # # # # # Usuários Vencedores # # # # # # # # # # # # # # ');
-    console.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #');
-    console.log('Quantidade mínima de Acertos: 10');
-    console.log('PS: Não vale o meu user!');
-    printAccordingHits(10,10)
-    console.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #');
-    console.log('# # # # # # # # # # # # # # Segundo Lugar # # # # # # # # # # # # # # ');
-    console.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #');
-    console.log('Quantidade mínima de Acertos: 9');
-    printAccordingHits(9,10)
-    console.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #');
-    console.log('# # # # # # # # # # # # # # Terceiro Lugar # # # # # # # # # # # # # # ');
-    console.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #');
-    console.log('Quantidade mínima de Acertos: 8');
-    printAccordingHits(8,10)
-    console.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #');
-    console.log('# # # # # # # # # # # # # # Troféu Mandioca # # # # # # # # # # # # # # ');
-    console.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #');
-    console.log('Não conseguiu nem chutar...');
-    printAccordingHits(0,10)
-
-    console.log('Parabéns, moçada! E obrigado por Participare! ;-)');
+    printFinalResult();
 });
+
+function printFinalResult() {
+    console.log('PRIMEIRO LUGAR: Até 1 Erro em 10 respostas: ');
+    console.log(getUsersAccondingHits(9,10));
+    console.log('SEGUNDO LUGAR: Até 2 Erros em 10 respostas: ');
+    console.log(getUsersAccondingHits(8,10));
+    console.log('TERCEIRO LUGAR: Até 3 Erros em 10 respostas: ');
+    console.log(getUsersAccondingHits(7,10));
+    console.log(' ');
+    console.log(' ');
+    console.log('Troféu Guru das Plantinhas: Nenhum Erro');
+    console.log(getUsersAccondingHits(10,10));
+    console.log('Troféu Mandioca: Nenhum acerto em 10 respostas: ');
+    console.log(getUsersAccondingHits(0,10));
+    console.log(' ');
+    console.log(' ');
+    console.log('Obrigado a todos que participaram! Vocês são demais! ');
+    console.log(' :D ');
+}
+
+
+function getUsersAccondingHits(hits, max) {
+    var result = [];
+    UserVotersList.voters.forEach(voter => {
+        if ((voter.numberOfAnswers === max) && (voter.numberOfCorrectAnswers === hits)) {
+            result.push(voter.username);
+        }
+    })
+    return result;
+}
 
 function printAllUserData() {
     UserVotersList.voters.forEach(voter => {
@@ -153,13 +145,9 @@ function printUserData(voter){
 }
 
 function printAccordingHits(hits, minVotes) {
-    UserVotersList.voters.forEach(voter => {
+    getUsersAccondingHits.forEach(voter => {
         if ((voter.numberOfCorrectAnswers === hits) && (voter.numberOfAnswers >= minVotes)) {
             printUserData(voter);
         }
     })
-}
-
-function printWinners() {
-    printAccordingHits(OptionsVector.length);
 }
